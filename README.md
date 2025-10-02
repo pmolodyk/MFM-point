@@ -1,2 +1,37 @@
-## MFM-point: Multi-scale Flow Matching for Point Cloud Generation
-We introduce a scalable and efficient multi-scale Flow Matching framework for point cloud generation, referred to as MFM-point, which adopts a coarse-to-fine generation paradigm. Compared with existing flow-based methods for point cloud generation, our multi-scale approach facilitates more effective modeling for complex point cloud generation tasks, such as multi-category or high-resolution settings. A key challenge in developing such a multi-scale framework for point cloud generation lies in preserving the inherent geometric structure of point clouds, which lack a regular topology, while also ensuring consistent and rigorous distributional transitions between coarse and fine resolutions. To address this challenge, we propose a structured downsampling strategy based on equal-size K-means clustering, paired with a principled upsampling algorithm that maintains alignment between coarse and fine representations. This multi-scale design reduces the reliance on expensive matching solvers, enhancing the training efficiency. Our experimental results demonstrate that MFM-Point achieves state-of-the-art performance among flow matching and diffusion-based models, with particularly strong results in multi-category and high-resolution scenarios.
+# MFM-point
+We include simplified code.
+
+## How to Start
+Go to ``metrics/PyTorchEMD`` and install setup by the following command:
+```
+conda setup.py install
+```
+Then, evaluation on CUDA code becomes available.
+
+
+**Preprocessing**
+Example:
+```
+python preprocessing.py --category airplane --npoints 2048 --downsample_ratio 4 --num_per_data 5
+```
+
+## Training 
+
+Example:
+
+- High res
+```
+python train_separate.py --exp_dir high_res --stage 0 --stage_start_time 0.6 --grad_clip 0.01
+```
+
+- Low res
+```
+python train_separate.py --exp_dir low_res --stage 1 --grad_clip 0.01
+```
+
+## Evaluation
+Example:
+
+```
+python evaluate_separate.py --exp_names low_res high_res
+```
